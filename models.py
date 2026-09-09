@@ -28,6 +28,18 @@ class Cargo:
     def get_info(self) -> str:
         return f"Cargo ID: {self.id}\nCargo Weight: {self.weight}\nCurrent Location: {self.location.id}"
 
+    def get_id(self) -> str:
+        return self.id
+
+    def get_weight(self) -> float:
+        return self.weight
+
+    def get_location(self) -> Zone:
+        return self.location
+
+    def set_location(self, new_location: Zone) -> None:
+        self.location = new_location
+
 
 class Task:
     def __init__(self) -> None:
