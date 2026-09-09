@@ -9,6 +9,9 @@ class Zone:
     def __init__(self, zone_id: str) -> None:
         self.id = zone_id
 
+    def get_id(self) -> str:
+        return self.id
+
     def get_info(self) -> str:
         return f"Zone ID: {self.id}"
 
@@ -25,9 +28,6 @@ class Cargo:
         self.weight = cargo_weight
         self.location = cargo_location
 
-    def get_info(self) -> str:
-        return f"Cargo ID: {self.id}\nCargo Weight: {self.weight}\nCurrent Location: {self.location.id}"
-
     def get_id(self) -> str:
         return self.id
 
@@ -36,6 +36,18 @@ class Cargo:
 
     def get_location(self) -> Zone:
         return self.location
+
+    def get_info(self) -> str:
+        return (
+            f"Cargo ID: {self.get_id()}\n"
+            f"Cargo Weight: {self.get_weight()}\n"
+            f"Current Location: {self.location.get_id()}"
+        )
+
+    def set_weight(self, new_weight: float) -> None:
+        if new_weight <= 0:
+            raise ValueError("Weight value must be more than zero!")
+        self.weight = new_weight
 
     def set_location(self, new_location: Zone) -> None:
         self.location = new_location
