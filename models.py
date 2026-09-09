@@ -14,8 +14,19 @@ class Zone:
 
 
 class Cargo:
-    def __init__(self) -> None:
-        pass
+    id: str
+    weight: float
+    location: Zone
+
+    def __init__(
+        self, cargo_id: str, cargo_weight: float, cargo_location: Zone
+    ) -> None:
+        self.id = cargo_id
+        self.weight = cargo_weight
+        self.location = cargo_location
+
+    def get_info(self) -> str:
+        return f"Cargo ID: {self.id}\nCargo Weight: {self.weight}\nCurrent Location: {self.location.id}"
 
 
 class Task:
