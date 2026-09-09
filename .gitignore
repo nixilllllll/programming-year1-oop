@@ -1,0 +1,10 @@
+# File Categories
+*.pyc
+*.pdf
+
+# Files
+.venv
+
+# Directories
+labs/
+__pycache__/
