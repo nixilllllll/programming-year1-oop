@@ -117,16 +117,77 @@ class Robot:
         self.status = new_status
 
     def get_info(self) -> str:
+        cargo = self.get_cargo()
+        cargo_id = cargo.get_id() if cargo is not None else "None"
         return (
             f"Robot ID: {self.get_id()}\n"
-            f"Robot Charge: {self.get_charge()}\n"
-            f"Robot Max Load: {self.get_max_load()}\n"
-            f"Robot Location: {self.location.get_id()}\n"
-            f"Robot Cargo: {self.get_cargo()}\n"
             f"Robot Status: {self.get_status()}\n"
+            f"Robot Location: {self.location.get_id()}\n"
+            f"Robot Charge: {self.get_charge()}\n"
+            f"Robot Max Load: {self.get_max_load()} kg\n"
+            f"Cargo ID: {cargo_id}\n"
         )
 
 
 class Task:
-    def __init__(self) -> None:
-        pass
+    id: str
+    status: str
+    performer: Robot | None
+    cargo: Cargo
+    from_zone: Zone
+    to_zone: Zone
+
+    def __init__(
+        self,
+        task_id: str,
+        task_status: str,
+        task_performer: Robot | None,
+        task_cargo: Cargo,
+        from_zone: Zone,
+        to_zone: Zone,
+    ) -> None:
+        if from_zone.get_id() == to_zone.get_id():
+            raise ValueError("Source and destination zones must be different!")
+
+        self.id = task_id
+        self.status = task_status
+        self.performer = task_performer
+        self.cargo = task_cargo
+        self.from_zone = from_zone
+        self.to_zone = to_zone
+
+    def get_id(self) -> str:
+        return self.id
+
+    def get_status(self) -> str:
+        return self.status
+
+    def set_status(self, new_status: str) -> None:
+        self.status = new_status
+
+    def get_performer(self) -> Robot | None:
+        return self.performer
+
+    def set_performer(self, new_performer: Robot | None) -> None:
+        self.performer = new_performer
+
+    def get_cargo(self) -> Cargo:
+        return self.cargo
+
+    def get_from_zone(self) -> Zone:
+        return self.from_zone
+
+    def get_to_zone(self) -> Zone:
+        return self.to_zone
+
+    def get_info(self) -> str:
+        performer = self.get_performer()
+        performer_id = performer.get_id() if performer is not None else "None"
+        return (
+            f"Task ID: {self.get_id()}\n"
+            f"Task Status: {self.get_status()}\n"
+            f"Task Performer: {performer_id}\n"
+            f"Cargo: {self.get_cargo().get_id()}\n"
+            f"From Zone: {self.get_from_zone().get_id()}\n"
+            f"To Zone: {self.get_to_zone().get_id()}\n"
+        )
