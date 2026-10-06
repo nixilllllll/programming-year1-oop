@@ -77,21 +77,26 @@ class Robot:
     cargo: Cargo | None = None
     status: str
 
+    _id_counter: int = 0
+
     def __init__(
         self,
-        robot_id: str,
-        robot_charge: float,
-        robot_max_load: float,
-        robot_location: Zone,
+        robot_id: str | None = None,
+        robot_charge: float = 100.0,
+        robot_max_load: float = 10.0,
+        robot_location: Zone | None = None,
         robot_cargo: Cargo | None = None,
         robot_status: str = "idle",
     ) -> None:
+        if robot_id is None:
+            self.id = f"ROBOT-{Robot._id_counter}"
+            Robot._id_counter += 1
+        else:
+            self.id = robot_id
         if not (0.0 <= robot_charge <= 100.0):
             raise ValueError("Charge must be between 0 and 100!")
         if robot_max_load <= 0:
-            raise ValueError("Max Load must be more then zero!")
-
-        self.id = robot_id
+            raise ValueError("Max Load must be more than zero!")
         self.charge = robot_charge
         self.max_load = robot_max_load
         self.location = robot_location
@@ -149,6 +154,19 @@ class Robot:
             f"Cargo ID: {cargo_id}\n"
         )
 
+    def __str__(self) -> str:
+        loc_id = self.location.get_id() if self.location else "None"
+        cargo_id = self.cargo.id if self.cargo else "None"
+
+        return "id: {0}, status: {1}, location: {2}, charge: {3}, max_load: {4}, cargo_id: {5}".format(
+            self.id,
+            self.status,
+            loc_id,
+            self.charge,
+            self.max_load,
+            cargo_id,
+        )
+
 
 class Task:
     id: str
@@ -158,19 +176,26 @@ class Task:
     from_zone: Zone
     to_zone: Zone
 
+    _id_counter: int = 0
+
     def __init__(
         self,
-        task_id: str,
-        task_status: str,
-        task_performer: Robot | None,
-        task_cargo: Cargo,
         from_zone: Zone,
         to_zone: Zone,
+        task_cargo: Cargo,
+        task_id: str | None = None,
+        task_status: str = "created",
+        task_performer: Robot | None = None,
     ) -> None:
         if from_zone.get_id() == to_zone.get_id():
             raise ValueError("Source and destination zones must be different!")
 
-        self.id = task_id
+        if task_id is None:
+            self.id = f"TASK-{Task._id_counter}"
+            Task._id_counter += 1
+        else:
+            self.id = task_id
+
         self.status = task_status
         self.performer = task_performer
         self.cargo = task_cargo
@@ -211,4 +236,15 @@ class Task:
             f"Cargo: {self.get_cargo().get_id()}\n"
             f"From Zone: {self.get_from_zone().get_id()}\n"
             f"To Zone: {self.get_to_zone().get_id()}\n"
+        )
+
+    def __str__(self) -> str:
+        performer_id = self.performer.get_id() if self.performer else "None"
+        return "id: {0}, status: {1}, performer: {2}, cargo: {3}, from: {4}, to: {5}".format(
+            self.id,
+            self.status,
+            performer_id,
+            self.cargo.get_id(),
+            self.from_zone.get_id(),
+            self.to_zone.get_id(),
         )

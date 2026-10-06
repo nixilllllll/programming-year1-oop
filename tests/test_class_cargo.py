@@ -30,6 +30,10 @@ class TestCargo(unittest.TestCase):
         with self.assertRaises(ValueError):
             cargo.set_weight(-1.0)
 
+    def test_str_representation(self) -> None:
+        cargo = Cargo(cargo_id="C-1", cargo_weight=10.5)
+        self.assertEqual(str(cargo), "id: C-1, weight: 10.5")
+
 
 if __name__ == "__main__":
     unittest.main()
