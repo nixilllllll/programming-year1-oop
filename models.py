@@ -7,7 +7,6 @@ class Zone:
         if zone_id is None:
             self.id = f"ZONE-{Zone._id_counter}"
             Zone._id_counter += 1
-
         else:
             self.id = zone_id
 
@@ -18,7 +17,7 @@ class Zone:
         return f"Zone ID: {self.id}"
 
     def __str__(self) -> str:
-        return f"id: {0}".format(self.id)
+        return "id: {0}".format(self.id)
 
 
 class Cargo:
@@ -26,13 +25,19 @@ class Cargo:
     weight: float
     location: Zone
 
+    _id_counter: int = 0
+
     def __init__(
         self,
-        cargo_id: str,
+        cargo_id: str | None = None,
         cargo_weight: float = 1.0,
         cargo_location: Zone | None = None,
     ) -> None:
-        self.id = cargo_id
+        if cargo_id is None:
+            self.id = f"CARGO-{Cargo._id_counter}"
+            Cargo._id_counter += 1
+        else:
+            self.id = cargo_id
         self.weight = cargo_weight
         self.location = cargo_location
 
@@ -59,6 +64,9 @@ class Cargo:
 
     def set_location(self, new_location: Zone) -> None:
         self.location = new_location
+
+    def __str__(self) -> str:
+        return "id: {0}, weight: {1}".format(self.id, self.weight)
 
 
 class Robot:
