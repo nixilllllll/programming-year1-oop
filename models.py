@@ -1,14 +1,24 @@
 class Zone:
     id: str
 
-    def __init__(self, zone_id: str) -> None:
-        self.id = zone_id
+    _id_counter: int = 0
+
+    def __init__(self, zone_id: str | None = None) -> None:
+        if zone_id is None:
+            self.id = f"ZONE-{Zone._id_counter}"
+            Zone._id_counter += 1
+
+        else:
+            self.id = zone_id
 
     def get_id(self) -> str:
         return self.id
 
     def get_info(self) -> str:
         return f"Zone ID: {self.id}"
+
+    def __str__(self) -> str:
+        return f"id: {0}".format(self.id)
 
 
 class Cargo:
@@ -17,7 +27,10 @@ class Cargo:
     location: Zone
 
     def __init__(
-        self, cargo_id: str, cargo_weight: float, cargo_location: Zone
+        self,
+        cargo_id: str,
+        cargo_weight: float = 1.0,
+        cargo_location: Zone | None = None,
     ) -> None:
         self.id = cargo_id
         self.weight = cargo_weight
