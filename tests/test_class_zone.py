@@ -1,0 +1,21 @@
+import unittest
+
+from models import Zone
+
+
+class TestZone(unittest.TestCase):
+    def setUp(self) -> None:
+        Zone.id_counter = 0
+
+    def test_default_constructor_and_id_generation(self) -> None:
+        """test 1: autoID and constructor"""
+        zone_0 = Zone()
+        zone_1 = Zone()
+
+        # Check ID generation
+        self.assertEqual(zone_0.get_id(), "ZONE-0")
+        self.assertEqual(zone_1.get_id(), "ZONE-1")
+
+
+if __name__ == "__main__":
+    unittest.main()
