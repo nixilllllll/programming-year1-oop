@@ -14,6 +14,8 @@
       myPython = pkgs.python313.withPackages (
         ps: with ps; [
           pytest
+          pytest-cov
+          coverage
         ]
       );
     in
