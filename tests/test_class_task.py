@@ -1,3 +1,4 @@
+import time
 import unittest
 
 from models import Cargo, Robot, Task, Zone
@@ -33,6 +34,19 @@ class TestTask(unittest.TestCase):
         )
         expected = "id: T-100, status: created, performer: None, cargo: C-1, from: ZONE-1, to: ZONE-2"
         self.assertEqual(str(task), expected)
+
+    def test_destructor_file_output(self):
+        c = Cargo(cargo_id="DEL-TEST")
+        c.set_weight(50.0)
+
+        del c
+
+        time.sleep(0.1)
+
+        with open("transaction.txt", "r") as f:
+            content = f.read()
+            self.assertIn("Cargo DEL-TEST", content)
+            self.assertIn("set_weight", content)
 
 
 if __name__ == "__main__":
