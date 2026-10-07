@@ -4,6 +4,7 @@
 
 # Files
 .venv
+transaction.txt
 
 # Directories
 labs/
