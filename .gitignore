@@ -5,6 +5,7 @@
 # Files
 .venv
 transaction.txt
+.coverage 
 
 # Directories
 labs/
